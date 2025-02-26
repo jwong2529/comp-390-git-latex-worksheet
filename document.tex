@@ -40,53 +40,153 @@ This worksheet is due March 1, 2025 at midnight, to be submitted as a GitHub rep
 
 \begin{enumerate}
     \item What is a version control system? Why are they useful?
+    
+      A version control system tracks changes to files over time and allows for collaboration, access to change history, and the ability to recover previous versions. It is useful for managing a codebase efficiently, especially when collaborating with others.
     \item What is the difference between git and GitHub?
+    
+    Git is a tool that is already on my computer. GitHub is a cloud-based platform that allows people to host Git repositories and provides tools for collaboration, such as making pull requests or tracking issues.
     \item What is a repository?
+    
+    A repository is a project directory managed by Git that tracks file changes and stores commits.
     \item What is a commit?
+    
+    It is a snapshot or a version of changes in the repository at a specific point in time. It has a unique hash for identification.
     \item What is the commit graph?
+    
+    A commit graph is a visual representation of commits and their relationships to each other. It is displayed as nodes connected by arrows that shows the history of a project.
     \item What is your preferred local git client (eg., command line, GitHub Desktop, GitKraken, etc.)?
+    
+    I usually use the command line but have used GitHub Desktop as well.
 \end{enumerate}
 
 \subsection{Local Usage}
 
 \begin{enumerate}
 \item What is the difference between adding a file to the staging area and committing a file?
+
+Adding a file to the staging area prepares it for inclusion in the next commit. Committing records the staged changes permanently in the repository's history.
 \item What is a commit message, and why is it important for them to be meaningful?
+
+A commit message is just a description of the changes that were made. It is important for them to be meaningful to help you, your collaborators, and the viewers of the repository understand the purpose of each commit. It can also help when you want to revert to a previous version.
 \item Starting with an empty repository, what sequence of commands/actions would result in the following commit graph? You may give a sequence of \texttt{git} commands, or describe (with screenshots) how you would do this in your preferred graphical git interface.
 \begin{verbatim}
 A---B---C---D
 \end{verbatim}
+
+\texttt{git init}\\
+\texttt{echo "A" > file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "A"}\\
+\texttt{echo "B" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "B"}\\
+\texttt{echo "C" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "C"}\\
+\texttt{echo "D" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "D"}\\
+
 \item If you are currently at commit D above, how would you recover code from commit B? What sequence of commands/actions would let you do so? You may give a sequence of \texttt{git} command-line commands, or describe (with screenshots) how you would do this in your preferred graphical git interface. Assume the commit hashes are AAAAAA..., BBBBBB..., etc.
+
+To just look at the code from commit B:
+
+\texttt{git checkout BBBBBB}
+
+To create a new branch from commit B:
+
+\texttt{git checkout -b new-branch-name BBBBBB}
 \item Imagine you created a git repository for your project, but only commit your changes once a week on Sundays. You got your code working on Tuesday, but then broke your code on Friday. What can you do to get the working version of your code back?
+
+If no changes were committed or stashed, there's nothing you can do. This is why you should commit often to avoid these types of situations.
 \end{enumerate}
 
 \subsection{Branching and Merging}
 
 \begin{enumerate}
 \item What is a branch? Why are they useful?
+
+A branch is essentially a pointer to a specific commit that allows you to diverge from the main development code. It's very useful for developing new features and working independently on a large codebase.
 \item Starting with an empty repository, what sequence of commands/actions would result in the following commit graph? You may give a sequence of \texttt{git} command-line commands, or describe (with screenshots) how you would do this in your preferred graphical git interface.
 \begin{verbatim}
 A---B---C---D
      \
       E---F
 \end{verbatim}
+
+\texttt{git init}\\
+\texttt{echo "A" > file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "A"}\\
+\texttt{echo "B" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "B"}\\
+\texttt{git branch feature}\\
+\texttt{git checkout feature}\\
+\texttt{echo "E" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "E"}\\
+\texttt{echo "F" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "F"}\\
+\texttt{git checkout main}\\
+\texttt{echo "C" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "C"}\\
+\texttt{echo "D" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "D"}\\
 \item Why is a merge? Why are they useful?
+
+A merge combines changes from different branches into a single branch. They are extremely useful for when multiple developers are working on different features for a project and they will need to combine it for the final product at the end. It's also useful because we don't want to mess with the production code when implementing new features. Until it's fully tested, they should remain separate.
 \item Imagine you are currently at commit D above. What sequence of commands/actions would result in the following commit graph? You may give a sequence of \texttt{git} commands, or describe (with screenshots) how you would do this in your preferred graphical git interface.
 \begin{verbatim}
 A---B---C---D---G
      \         /
       E---F---/
 \end{verbatim}
+
+\texttt{git checkout main}\\
+\texttt{echo "G" >> file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "G"}\\
+\texttt{git merge feature}\\
 \item What is a merge conflict? When do they occur?
-\item Starting with an empty repository, despite a sequence of commands/actions that would result in a merge conflict. Include the exact edits and \texttt{git} commands or screenshots of the graphical git interface. Include the output or screenshot that shows the resulting merge conflict.
+
+A merge conflict occurs when there are conflicting changes, such as wanting to merge two branches but the same line of a file is changed in both branches. Another example is when one branch modifies a file but the other branch deletes it. Essentially, Git doesn't know which change to keep so the programmer will have to manually resolve that conflict.
+\item Starting with an empty repository, despite a sequence of commands/actions that would result in a merge conflict. Include the exact edits and \texttt{git} commands or screenshots of the graphical git interface. Include the output or screenshot that shows the resulting merge conflict.\\
+
+\texttt{git init}\\
+\texttt{echo "Initial info" > file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "Initial commit"}\\
+\texttt{git branch feature}\\
+\texttt{git checkout feature}\\
+\texttt{echo "Feature 1 change" > file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "Commit on feature"}\\
+\texttt{git checkout main}\\
+\texttt{echo "Main branch change" > file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "Commit on main"}\\
+\texttt{echo "Main branch change" > file.txt}\\
+\texttt{git add file.txt}\\
+\texttt{git commit -m "Commit on main"}\\
+\texttt{git merge feature}\\
 \end{enumerate}
 
 \subsection{Remotes}
 
 \begin{enumerate}
 \item What is a remote?
+
+This refers to when a repository is hosted outside of the local computer such as on a service like GitHub or Bitbucket. 
 \item What does pushing and pulling do?
+
+The pushing operation uploads the commits on the local computer to the remote repository. The pulling operation downloads the changes from the remote repository and merges them into the local branch.
 \item Imagine you created a git repository for your project on your laptop and commit regularly, but only push your code to GitHub once a week on Sundays. Your laptop caught on fire on Friday. What can you do to get your code back?
+
+Unfortunately, you can only get the code from last Sunday back by cloning it from GitHub. The commits on the local computer will be gone.
 \end{enumerate}
 
 \section{\LaTeX}
@@ -105,6 +205,35 @@ Find a source of each of the following types and add it to \texttt{references.bi
 \end{itemize}
 
 Additionally, in you own words, explain the difference between \texttt{{\textbackslash}cite\{\}} and \texttt{{\textbackslash}textcite\{\}}. When should they each be used? Demonstrate your answers by using one of them with each of your references from above.
+
+\texttt{{\textbackslash}cite\{\}} generates an in-text citation enclosed in parentheses. It is not a grammatical part of the sentence. It is also more suitable for general references or when listing multiple sources.
+
+Example:
+\begin{itemize}
+    \item 
+    TETRIS is a scalable and efficient neural network acceleration framework (\cite{GaoTetris2017}).
+\end{itemize}
+
+\texttt{{\textbackslash}textcite\{\}} integrates the citation into the text as part of the sentence. It automatically formats the author's name within the sentence along with the year in parentheses. This is useful when you want to emphasize the author or make them the subject of the sentence.
+
+Examples:
+\begin{itemize}
+    \item \textcite{AlAnsiAnalyzingAugmented2023} analyzed recent developments in augmented and virtual reality for educational applications.\\
+    \item
+    \textcite{GaoTetris2017} introduced TETRIS, a scalable and efficient neural network acceleration framework.\\
+    \item
+    \textcite{KuszmaulRandomizedDataStructures2023} explored novel perspectives and hidden surprises in randomized data structures.\\
+    \item
+    \textcite{BoultonSyntheticData2025} examined whether synthetic data can help scale AI's data limitations.\\
+    \item
+    \textcite{PruksachatkunTrustworthyML} provided guidelines for building consistent, transparent, and fair AI pipelines.\\
+    \item
+    \textcite{HiragaNintendoWiiExercise2024} discussed the contribution of virtual reality, particularly the Nintendo Wii, in exercise training and rehabilitation.\\
+    \item
+    \textcite{YoutubeQuantumComputers2024} explored the potential and pitfalls of new quantum computers.\\
+    \item
+    \textcite{TwilioTechDocs} provides documentation on programmable messaging for developers.
+\end{itemize}
 
 \printbibliography
 
